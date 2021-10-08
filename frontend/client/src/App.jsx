@@ -1,0 +1,44 @@
+import "./App.css";
+import React, { useEffect } from "react";
+import { Navbar, Landing, Register, Login, Alert, Dashboard, CreateProfile } from "./components";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import PrivateRoute from "./components/routing/privateRoute";
+// Redux
+import { Provider } from "react-redux";
+import store from "./store";
+import setAuthToken from "./utils/setAuthToken";
+import { loadUser } from "./actions/auth";
+import EditProfile from "./components/profile_form/EditProfile";
+import AddExperience from "./components/profile_form/AddExperience";
+import AddEducation from "./components/profile_form/AddEducation";
+if (localStorage.token) setAuthToken(localStorage.token)
+
+function App() {
+  useEffect(() => {
+    store.dispatch(loadUser())
+  }, [])
+  return (
+    <>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Navbar />
+          <Route exact path="/" component={Landing} />
+          <section className="container">
+            <Alert />
+            <Switch>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <PrivateRoute exact path='/dashboard' component={Dashboard}/>
+              <PrivateRoute exact path = '/create-profile' component = {CreateProfile}/>
+              <PrivateRoute exact path = '/edit-profile' component = {EditProfile}/>
+              <PrivateRoute exact path = '/add-experience' component = {AddExperience}/>
+              <PrivateRoute exact path = '/add-education' component = {AddEducation}/>
+            </Switch>
+          </section>
+        </BrowserRouter>
+      </Provider>
+    </>
+  );
+}
+
+export default App;

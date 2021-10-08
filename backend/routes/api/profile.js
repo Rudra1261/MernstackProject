@@ -23,7 +23,7 @@ router.get("/me", auth, async (req, res) => {
     res.json(profile);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Server error");
+    res.status(500).json({msg:"Server error"});
   }
 });
 
@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
     res.json(profiles);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Server error");
+    res.status(500).json({msg:"Server error"});
   }
 });
 
@@ -58,7 +58,7 @@ router.get("/user/:user_id", async (req, res) => {
     console.error(error.message);
     if (error.kind == "ObjectId")
       return res.status(400).json({ msg: "profile doesn't exist" });
-    res.status(500).send("Server error");
+    res.status(500).json({msg:"Server error"});
   }
 });
 router.delete("/", auth, async (req, res) => {
@@ -92,7 +92,7 @@ router.post(
       facebook,
       twitter,
       instagram,
-      linkedin,
+      linkedin
     } = req.body;
 
     const profileFields = {};
@@ -102,10 +102,8 @@ router.post(
     location && (profileFields.location = location);
     bio && (profileFields.bio = bio);
     status && (profileFields.status = status);
-    skills &&
-      (profileFields.skills = skills
-        .split(",")
-        .map((element) => element.trim()));
+    // const skillsArray = skills.toString().split(',').map(e => e.trim())
+    profileFields.skills = skills
     githubusername && (profileFields.githubusername = githubusername);
 
     profileFields.social = {};
@@ -131,7 +129,7 @@ router.post(
       }
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("server error");
+      res.status(500).json({msg:"server error"});
     }
   }
 );
@@ -167,7 +165,7 @@ router.put(
       res.send(expProfile);
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("Server error");
+      res.status(500).json({msg:"Server error"});
     }
   }
 );
@@ -183,7 +181,7 @@ router.delete("/experience/delete/:exp_id", auth, async (req, res) => {
     res.status(200).send("Updated the experience section");
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Server error");
+    res.status(500).json({msg:"Server error"});
   }
 });
 
@@ -221,7 +219,7 @@ router.put(
       res.send(edProfile);
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("Server error");
+      res.status(500).json({msg:"Server error"});
     }
   }
 );
@@ -235,7 +233,7 @@ router.delete("/education/delete/:ed_id", auth, async (req, res) => {
     res.status(200).send("Updated the education section");
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Server error");
+    res.status(500).json({msg:"Server error"});
   }
 });
 
