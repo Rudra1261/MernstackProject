@@ -1,0 +1,32 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+
+export const ProfileAbout = ({ profile: { bio, skills, user: { name } } }) => {
+    return (
+        <>
+
+        {bio && (<>
+            <div className="profile-about bg-light p-2">
+                <h2 className="text-primary">{name.trim().split(' ')[0]}</h2>
+                <p>
+                    {bio}
+                </p>
+                </div>
+        </>)}
+            
+                <div className="line"></div>
+                <h2 className="text-primary">Skill Set</h2>
+                <div className="skills">
+                    {/* {console.log({skills})} */}
+                    {skills.map((skill,index) => (
+
+                        <h4 key={index} sx ={{display:"flex",flexDirection:"row"}}>{skill}</h4>
+                    ))}
+                     </div>
+            
+        </>
+    )
+}
+ProfileAbout.propTypes = {
+    profile:PropTypes.object.isRequired,
+}
